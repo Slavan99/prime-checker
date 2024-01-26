@@ -3,14 +3,14 @@ package com.sber.primechecker.algorithm
 import org.springframework.stereotype.Component
 import java.util.concurrent.*
 import kotlin.concurrent.Volatile
-import kotlin.math.sqrt
+import kotlin.math.ceil
+
 @Component
-open class TrialDivisionHandler(
+open class FermatHandler(
     @Volatile
     private var found: Boolean = false,
     private val threadCount: Int = Runtime.getRuntime().availableProcessors()
 ) : IPrimeChecker {
-
     @Throws(ExecutionException::class, InterruptedException::class)
     override fun isPrimeNumber(number: Long, iter: Int): Boolean {
         found = false
@@ -19,10 +19,10 @@ open class TrialDivisionHandler(
         }
         val executorService = Executors.newFixedThreadPool(threadCount)
         val futures: MutableList<Future<Boolean>> = ArrayList()
-
         for (i in 0 until threadCount) {
-            val trialDivisionCallable = Callable { checkNumberIsPrime(number, (3 + 2 * i).toLong()) }
-            val future = executorService.submit(trialDivisionCallable)
+            val fermatCallable =
+                Callable { checkNumberIsPrime(number, ceil((iter / threadCount).toDouble()).toInt()) }
+            val future = executorService.submit(fermatCallable)
             futures.add(future)
         }
         var result = true
@@ -35,21 +35,33 @@ open class TrialDivisionHandler(
 
 
     override fun getName(): String {
-        return "Trial"
+        return "Fermat"
     }
 
-    private fun checkNumberIsPrime(numberToCheck: Long, startPos: Long): Boolean {
-        val sqrt = sqrt(numberToCheck.toDouble())
-        var i = startPos
-        while (i <= sqrt) {
-            if (!found) {
-                if (numberToCheck % i == 0L) {
+
+    private fun binaryPower(a: Long, n: Long): Long {
+        var aModN = a % n
+        var res: Long = 1
+        var nMinusOne = n - 1
+        while (nMinusOne > 0) {
+            if (nMinusOne % 2 == 1L) res = res * aModN % n
+            aModN = aModN * aModN % n
+            nMinusOne = nMinusOne shr 1
+        }
+        return res
+    }
+
+    private fun checkNumberIsPrime(numberToCheck: Long, iterations: Int): Boolean {
+        if (!found) {
+            for (i in 0 until iterations) {
+                val a = (Math.random() * (numberToCheck - 3)) + 2
+                if (binaryPower(a.toLong(), numberToCheck) != 1L) {
                     found = true
                     return false
                 }
             }
-            i += (2 * threadCount).toLong()
         }
         return true
     }
+
 }

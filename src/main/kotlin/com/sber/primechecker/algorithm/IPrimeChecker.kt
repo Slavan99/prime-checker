@@ -1,4 +1,4 @@
-package com.sber.com.sber.primechecker.algorithm
+package com.sber.primechecker.algorithm
 
 import java.util.concurrent.ExecutionException
 
