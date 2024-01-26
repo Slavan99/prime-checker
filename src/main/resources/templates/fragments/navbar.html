@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          border: 1px solid #e7e7e7;
+          background-color: #f3f3f3;
+        }
+
+        li {
+          float: left;
+        }
+
+        li a {
+          display: block;
+          color: #666;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+          background-color: #ddd;
+        }
+
+        li a.active {
+          color: white;
+          background-color: #04AA6D;
+        }
+    </style>
+
+</head>
+
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Navigation</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li th:if="${isAdmin}" class="nav-item active">
+                <a class="nav-link" href="admin">Admin page</a>
+            </li>
+            <li th:if="${isAuth}" class="nav-item active">
+                <a class="nav-link" href="history">User history</a>
+            </li>
+            <li th:if="${isAuth}" class="nav-item active">
+                <a class="nav-link" href="logout">Log out</a>
+            </li>
+            <li th:if="${not isAuth}" class="nav-item active">
+                <a class="nav-link" href="login">Log in</a>
+            </li>
+            <li th:if="${not isAuth}" class="nav-item active">
+                <a class="nav-link" href="register">Registration</a>
+            </li>
+
+        </ul>
+        <div class="navbar-text" th:text="${name}"></div>
+    </div>
+</nav>
+</body>
+</html>

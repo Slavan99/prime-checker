@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration and Login System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <style>
+        a {
+        text-decoration: underline;
+        }
+        #smb {
+        margin-top: 5%;
+        }
+        select {
+        height:30px;
+        }
+        .saveb{
+        margin-left:1%;
+        }
+        .yourHistory {
+        margin-top: 1%;
+        margin-bottom: 1%;
+        }
+        ol.pagination {
+         counter-reset: page-number
+         }
+
+         ol.pagination > li > a.page-link::before {
+         counter-increment: page-number;
+         content: counter(page-number);
+         }
+
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<form th:action="@{/history}" method="post" name="checkForm" th:object="${numberCheck}" role="form"
+
+>
+    <div>
+        <label>
+            Number to check :
+            <input type="text" name="inputNumber" th:field="*{inputNumber}"/>
+        </label>
+        <p th:errors="*{inputNumber}" class="text-danger"
+           th:if="${#fields.hasErrors('inputNumber')}"></p>
+    </div>
+    <div>
+        <label> Algorithm :
+            <select name="name" id="algoSelect" th:field="*{inputAlgorithm}">
+                <option th:each="algo : ${algos}" th:value="${algo}" th:text="${algo.name}"></option>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>Iteration number :
+            <input type="text" name="inputIterations" th:field="*{inputIterations}"/>
+        </label>
+        <p th:errors="*{inputIterations}" class="text-danger"
+           th:if="${#fields.hasErrors('inputIterations')}"></p>
+    </div>
+    <!-- input type="hidden" name="_csrf" value="{{_csrf.token}}"/ -->
+    <div><input type="submit" class="btn btn-primary" value="Check number"/></div>
+</form>
+<b th:if="${not hasHistory}">You have no check history!</b>
+<div th:if="${hasHistory}">
+    <div class="yourHistory">
+        <b>Your history</b>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Number</th>
+            <th>Algorithm</th>
+            <th>Iterations</th>
+            <th>Check date and time</th>
+            <th>Result</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="history : ${histories}">
+            <td th:text="${history.number}"></td>
+            <td th:text="${history.algorithm}"></td>
+            <td th:text="${history.iterations}"></td>
+            <td th:text="${history.checkDateTime}"></td>
+            <td th:text="${history.result}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <a class="page-link" th:href="@{/history?page={page}(page=${page-1})}"
+                   th:disabled="${page == 0}">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" th:href="@{/history?page={page}(page=${page-1})}"
+                                     th:text="${page}"></a></li>
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" th:href="@{/history?page={page}(page=${page})}" th:text="${page+1}"><span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="page-item"><a class="page-link" th:href="@{/history?page={page}(page=${page+1})}"
+                                     th:text="${page + 2}"></a></li>
+            <li class="page-item">
+                <a class="page-link" th:href="@{/history?page={page}(page=${page+1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+    <div>
+        <a href="/" class="btn btn-primary">Back</a>
+    </div>
+</div>
+<div class="footer text-center" th:fragment="footer">
+    <p><a href="#"> Terms of Use</a> | <a href="#">What's New</a> | <a href="#">Help</a></p>
+    <!-- javascripts -->
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js" xmlns:th="http://www.w3.org/1999/xhtml"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration and Login System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+<body>
+<div>
+    <b>User list</b>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Is active</th>
+        <th>Is admin</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#users}}
+    <tr>
+        <td>
+            {{name}}
+        </td>
+        <form action="/admin" method="post">
+            <td>
+                <select name="active">
+                    <option name="{{#active}} true {{/active}} {{^active}} false {{/active}}">
+                        {{#active}} true {{/active}} {{^active}} false {{/active}}
+                    </option>
+                    <option name="{{^active}} true {{/active}} {{#active}} false {{/active}}">
+                        {{^active}} true {{/active}} {{#active}} false {{/active}}
+                    </option>
+                </select>
+            </td>
+            <td>
+                <select name="admin">
+                    <option name="{{#isAdmin}} true {{/isAdmin}} {{^isAdmin}} false {{/isAdmin}}">
+                        {{#isAdmin}} true {{/isAdmin}} {{^isAdmin}} false {{/isAdmin}}
+                    </option>
+                    <option name="{{^isAdmin}} true {{/isAdmin}} {{#isAdmin}} false {{/isAdmin}}">
+                        {{^isAdmin}} true {{/isAdmin}} {{#isAdmin}} false {{/isAdmin}}
+                    </option>
+                </select>
+                <input type="submit" class="btn btn-primary saveb" value="Save"/>
+            </td>
+            <input type="hidden" name="user_name" value="{{name}}"/>
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+
+        </form>
+    </tr>
+    {{/users}}
+    </tbody>
+</table>
+<div>
+    <a href="/" class="btn btn-primary">Back</a>
+</div>
+<div class="footer text-center" th:fragment="footer">
+    <p><a href="#"> Terms of Use</a> | <a href="#">What's New</a> | <a href="#">Help</a></p>
+    <!-- javascripts -->
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js" xmlns:th="http://www.w3.org/1999/xhtml"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+</div>
+</body>
+</html>
