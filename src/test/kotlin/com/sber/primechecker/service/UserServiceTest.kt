@@ -1,6 +1,6 @@
 package com.sber.primechecker.service
 
-import com.sber.com.sber.primechecker.dto.UserDto
+import com.sber.primechecker.dto.UserDto
 import com.sber.primechecker.entity.Role
 import com.sber.primechecker.entity.User
 import com.sber.primechecker.repository.UserRepository
