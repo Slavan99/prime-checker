@@ -2,6 +2,9 @@ package com.sber.primechecker.algorithm
 
 import java.util.concurrent.ExecutionException
 
+/**
+ * Common interface for all beans for checking number primality
+ */
 interface IPrimeChecker {
     @Throws(ExecutionException::class, InterruptedException::class)
     fun isPrimeNumber(number: Long, iter: Int): Boolean

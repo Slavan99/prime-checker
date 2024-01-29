@@ -1,4 +1,4 @@
-package com.sber.com.sber.primechecker.controller
+package com.sber.primechecker.controller
 
 import com.sber.primechecker.entity.Role
 import com.sber.primechecker.entity.User
@@ -17,7 +17,9 @@ class AdminController(
     private val userService: UserService
 ) {
 
-
+    /**
+     * Handler method to get admin form
+     */
     @GetMapping("/admin")
     fun admin(@AuthenticationPrincipal currentUser: User, model: Model): String {
         model.addAttribute("username", currentUser.name)
@@ -30,7 +32,9 @@ class AdminController(
         model.addAttribute("users", users)
         return "admin"
     }
-
+    /**
+     * Handler method handle admin form submit request
+     */
     @PostMapping("/admin")
     fun postUser(
         @AuthenticationPrincipal currentUser: User, @RequestParam user_name: String?,

@@ -4,7 +4,9 @@ import com.sber.primechecker.algorithm.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-
+/**
+ * Component to get IPrimeChecker bean by algorithm name
+ */
 @Component
 open class HandlerResolver(
     @Autowired private val trialDivisionHandler: TrialDivisionHandler,

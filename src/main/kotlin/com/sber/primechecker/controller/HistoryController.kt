@@ -1,6 +1,6 @@
 package com.sber.primechecker.controller
 
-import com.sber.com.sber.primechecker.dto.NumberCheckDto
+import com.sber.primechecker.dto.NumberCheckDto
 import com.sber.primechecker.entity.Algorithm
 import com.sber.primechecker.entity.History
 import com.sber.primechecker.entity.User
@@ -35,7 +35,9 @@ class HistoryController(
     private val primeNumberService: PrimeNumberService
 ) {
 
-
+    /**
+     * Handler method to get number check form and user's number check history
+     */
     @GetMapping("/history")
     fun history(
         @AuthenticationPrincipal currentUser: User,
@@ -66,6 +68,9 @@ class HistoryController(
         return "history"
     }
 
+    /**
+     * Handler method to handle user number check form submit request
+     */
     @PostMapping("/history")
     @Throws(ExecutionException::class, InterruptedException::class)
     fun addHistory(

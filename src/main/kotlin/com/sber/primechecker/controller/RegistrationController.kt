@@ -1,8 +1,8 @@
-package com.sber.com.sber.primechecker.controller
+package com.sber.primechecker.controller
 
-import com.sber.com.sber.primechecker.dto.UserDto
-import com.sber.com.sber.primechecker.exception.IncorrectDataException
-import com.sber.com.sber.primechecker.exception.UserAlreadyExistAuthenticationException
+import com.sber.primechecker.dto.UserDto
+import com.sber.primechecker.exception.IncorrectDataException
+import com.sber.primechecker.exception.UserAlreadyExistAuthenticationException
 import com.sber.primechecker.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -19,7 +19,9 @@ class RegistrationController(
     private val userService: UserService
 ) {
 
-    // handler method to handle user registration form request
+    /**
+     * Handler method to handle user registration form request
+     */
     @GetMapping("/register")
     fun showRegistrationForm(model: Model): String {
         // create model object to store form data
@@ -29,7 +31,9 @@ class RegistrationController(
     }
 
 
-    // handler method to handle user registration form submit request
+    /**
+     * Handler method to handle user registration form submit request
+     */
     @PostMapping("/register/save")
     fun registration(
         @ModelAttribute("user") userDto: UserDto,

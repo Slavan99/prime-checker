@@ -14,7 +14,9 @@ class PrimeNumberService(
     @Autowired private val algorithmService: AlgorithmService,
     @Autowired private val historyService: HistoryService
 ) {
-
+    /**
+     * Check if a number is prime
+     */
     @Throws(ExecutionException::class, InterruptedException::class)
     fun checkNumber(currentUser: User, algorithmName: String, number: Long, iterations: Int): Boolean {
         val primeChecker: IPrimeChecker = handlerResolver.getCheckerByName(algorithmName)

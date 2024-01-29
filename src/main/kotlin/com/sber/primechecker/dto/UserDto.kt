@@ -1,4 +1,4 @@
-package com.sber.com.sber.primechecker.dto
+package com.sber.primechecker.dto
 
 data class UserDto(
     var name: String? = null,
