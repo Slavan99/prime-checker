@@ -10,14 +10,8 @@
         a {
         text-decoration: underline;
         }
-        #smb {
-        margin-top: 5%;
-        }
         select {
         height:30px;
-        }
-        .saveb{
-        margin-left:1%;
         }
         .yourHistory {
         margin-top: 1%;
@@ -49,33 +43,32 @@
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
-<form th:action="@{/history}" method="post" name="checkForm" th:object="${numberCheck}" role="form"
->
-    <div>
-        <label>
-            Number to check :
-            <input type="text" name="inputNumber" th:field="*{inputNumber}"/>
-        </label>
-        <p th:errors="*{inputNumber}" class="text-danger"
-           th:if="${#fields.hasErrors('inputNumber')}"></p>
-    </div>
-    <div>
-        <label> Algorithm :
-            <select name="name" id="algoSelect" th:field="*{inputAlgorithm}">
-                <option th:each="algo : ${algos}" th:value="${algo}" th:text="${algo.name}"></option>
-            </select>
-        </label>
-    </div>
-    <div>
-        <label>Iteration number :
-            <input type="text" name="inputIterations" th:field="*{inputIterations}"/>
-        </label>
-        <p th:errors="*{inputIterations}" class="text-danger"
-           th:if="${#fields.hasErrors('inputIterations')}"></p>
-    </div>
-    <!-- input type="hidden" name="_csrf" value="{{_csrf.token}}"/ -->
-    <div><input type="submit" class="btn btn-primary" value="Check number"/></div>
-</form>
+<div>
+<p th:text="${inputmessage}" th:style="'color: red;'"></p>
+    <form th:action="@{/history}" method="post" name="checkForm" th:object="${numberCheck}" role="form"
+    >
+        <div>
+            <label>
+                Number to check :
+                <input type="text" name="inputNumber" th:field="*{inputNumber}"/>
+            </label>
+        </div>
+        <div>
+            <label> Algorithm :
+                <select name="name" id="algoSelect" th:field="*{inputAlgorithm}">
+                    <option th:each="algo : ${algos}" th:value="${algo}" th:text="${algo.name}"></option>
+                </select>
+            </label>
+        </div>
+        <div>
+            <label>Iteration number :
+                <input type="text" name="inputIterations" th:field="*{inputIterations}"/>
+            </label>
+        </div>
+        <!-- input type="hidden" name="_csrf" value="{{_csrf.token}}"/ -->
+        <div><input type="submit" class="btn btn-primary" value="Check number"/></div>
+    </form>
+</div>
 <b th:if="${not hasHistory}">You have no check history!</b>
 <div th:if="${hasHistory}">
     <div class="yourHistory">

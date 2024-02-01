@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
@@ -60,7 +59,6 @@ class HistoryController(
         if (historiesByUser.totalElements == 0L) {
             model.addAttribute("hasHistory", false)
         } else {
-            model.addAttribute("message", "")
             model.addAttribute("histories", historiesByUser)
             model.addAttribute("hasHistory", true)
         }
@@ -76,7 +74,7 @@ class HistoryController(
     fun addHistory(
         @AuthenticationPrincipal currentUser: User,
         @ModelAttribute("numberCheck") numberCheckDto: NumberCheckDto,
-        model: Model, result: BindingResult
+        model: Model
     ): String {
         try {
             val number = numberCheckDto.inputNumber?.toLong()
@@ -87,11 +85,8 @@ class HistoryController(
             }
             primeNumberService.checkNumber(currentUser, algorithmName, number, iterations)
         } catch (e: NumberFormatException) {
-            result.rejectValue("inputNumber", "400", "Wrong data input!")
-            if (result.hasErrors()) {
-                model.addAttribute("numberCheck", numberCheckDto)
-            }
-            return "redirect:/history"
+            model.addAttribute("inputmessage", "Wrong data input!")
+            return history(currentUser, model, 0)
         }
         return "redirect:/history"
     }
